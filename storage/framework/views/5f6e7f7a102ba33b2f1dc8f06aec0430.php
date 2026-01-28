@@ -90,7 +90,7 @@
                 </a>
 
                 
-                <a href="#" class="nav-menu-item">
+                <a href="<?php echo e(route('contact')); ?>" class="nav-menu-item">
                     <i class="fas fa-envelope mr-2 text-gray-500"></i>
                     <span>Contact</span>
                 </a>
@@ -235,7 +235,7 @@
                     <i class="fas fa-tag mr-3 text-red-500"></i>Offers
                     <span class="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">HOT</span>
                 </a>
-                <a href="#" class="mobile-nav-link">
+                <a href="<?php echo e(route('contact')); ?>" class="mobile-nav-link">
                     <i class="fas fa-envelope mr-3 text-purple-500"></i>Contact
                 </a>
                 

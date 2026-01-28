@@ -3,80 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Panel') - {{ config('app.name') }}</title>
+    <title>@yield('title', 'Admin Panel') - ShopHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* Enhanced Sidebar Styling */
         .admin-sidebar {
-            background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
+        
         .admin-link {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            border-radius: 12px;
+            overflow: hidden;
         }
-        .admin-link:hover {
-            transform: translateX(4px);
-        }
-        .admin-link.active::before {
+        
+        .admin-link::before {
             content: '';
             position: absolute;
-            left: 0;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .admin-link:hover::before {
+            left: 100%;
+        }
+        
+        .admin-link:hover {
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .admin-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fbbf24;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        .admin-link.active::after {
+            content: '';
+            position: absolute;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             width: 4px;
             height: 24px;
-            background: #6366f1;
-            border-radius: 0 4px 4px 0;
+            background: #fbbf24;
+            border-radius: 4px 0 0 4px;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
         }
+        
+        /* Enhanced Cards */
         .stat-card {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid transparent;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+            transition: left 0.6s;
+        }
+        
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: #e5e7eb;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+            border-color: #6366f1;
         }
+        
+        /* Mobile Sidebar */
         .sidebar-collapsed {
             width: 80px;
         }
+        
         .sidebar-collapsed .sidebar-text {
             display: none;
         }
+        
         .sidebar-collapsed .sidebar-header h1,
         .sidebar-collapsed .sidebar-header p,
         .sidebar-collapsed .nav-section h3 {
             display: none;
         }
+        
+        /* Enhanced Animations */
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
         .animate-slide-in {
-            animation: slideIn 0.5s ease-out;
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Premium Buttons */
+        .premium-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .premium-btn:hover::before {
+            left: 100%;
+        }
+        
+        .premium-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="admin-sidebar w-64 min-h-screen shadow-xl">
+        <aside class="admin-sidebar w-64 min-h-screen shadow-2xl">
             <div class="flex flex-col h-full">
                 <!-- Logo Section -->
-                <div class="p-6 border-b border-gray-700 sidebar-header">
+                <div class="p-6 border-b border-white/20 sidebar-header">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-chart-line text-white text-xl"></i>
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg animate-float">
+                            <i class="fas fa-crown text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600"></i>
                         </div>
                         <div class="sidebar-text">
-                            <h1 class="text-xl font-bold text-white">Admin</h1>
-                            <p class="text-xs text-gray-400">Management Panel</p>
+                            <h1 class="text-2xl font-bold text-white">ShopHub</h1>
+                            <p class="text-xs text-white/80">Premium Admin</p>
                         </div>
                     </div>
                 </div>
@@ -85,22 +225,22 @@
                 <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
                     <!-- Dashboard -->
                     <a href="{{ route('admin.dashboard') }}" 
-                       class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.dashboard*') ? 'bg-gray-700 text-indigo-400 active' : 'text-gray-300' }}">
+                       class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white {{ request()->routeIs('admin.dashboard*') ? 'active' : '' }}">
                         <i class="fas fa-tachometer-alt mr-3 w-5"></i>
                         <span class="sidebar-text">Dashboard</span>
                     </a>
 
                     <!-- Catalog Section -->
                     <div class="pt-4 nav-section">
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Catalog</h3>
+                        <h3 class="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Catalog</h3>
                         <div class="space-y-1">
                             <a href="{{ route('admin.products.index') }}" 
-                               class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.products*') ? 'bg-gray-700 text-indigo-400 active' : 'text-gray-300' }}">
+                               class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
                                 <i class="fas fa-box mr-3 w-5"></i>
                                 <span class="sidebar-text">Products</span>
                             </a>
                             <a href="{{ route('admin.categories.index') }}" 
-                               class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.categories*') ? 'bg-gray-700 text-indigo-400 active' : 'text-gray-300' }}">
+                               class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white {{ request()->routeIs('admin.categories*') ? 'active' : '' }}">
                                 <i class="fas fa-tags mr-3 w-5"></i>
                                 <span class="sidebar-text">Categories</span>
                             </a>
@@ -109,15 +249,15 @@
 
                     <!-- Orders Section -->
                     <div class="pt-4 nav-section">
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Orders</h3>
+                        <h3 class="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Orders</h3>
                         <div class="space-y-1">
                             <a href="{{ route('admin.orders.index') }}" 
-                               class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.orders*') ? 'bg-gray-700 text-indigo-400 active' : 'text-gray-300' }}">
+                               class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
                                 <i class="fas fa-shopping-cart mr-3 w-5"></i>
                                 <span class="sidebar-text">Orders</span>
                             </a>
                             <a href="{{ route('admin.orders.export') }}" 
-                               class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                               class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white">
                                 <i class="fas fa-download mr-3 w-5"></i>
                                 <span class="sidebar-text">Export</span>
                             </a>
@@ -126,15 +266,15 @@
 
                     <!-- Users Section -->
                     <div class="pt-4 nav-section">
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Users</h3>
+                        <h3 class="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Users</h3>
                         <div class="space-y-1">
                             <a href="{{ route('admin.users.index') }}" 
-                               class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.users*') ? 'bg-gray-700 text-indigo-400 active' : 'text-gray-300' }}">
+                               class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
                                 <i class="fas fa-users mr-3 w-5"></i>
                                 <span class="sidebar-text">Users</span>
                             </a>
                             <a href="{{ route('admin.users.create') }}" 
-                               class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                               class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white">
                                 <i class="fas fa-user-plus mr-3 w-5"></i>
                                 <span class="sidebar-text">Add User</span>
                             </a>
@@ -143,13 +283,13 @@
 
                     <!-- Reports Section -->
                     <div class="pt-4 nav-section">
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Reports</h3>
+                        <h3 class="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Reports</h3>
                         <div class="space-y-1">
-                            <a href="{{ route('admin.orders.statistics') }}" class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <a href="{{ route('admin.orders.statistics') }}" class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white">
                                 <i class="fas fa-chart-bar mr-3 w-5"></i>
                                 <span class="sidebar-text">Analytics</span>
                             </a>
-                            <a href="{{ route('admin.orders.export') }}" class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <a href="{{ route('admin.orders.export') }}" class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white">
                                 <i class="fas fa-file-alt mr-3 w-5"></i>
                                 <span class="sidebar-text">Sales Reports</span>
                             </a>
@@ -158,13 +298,13 @@
 
                     <!-- Settings Section -->
                     <div class="pt-4 nav-section">
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">System</h3>
+                        <h3 class="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">System</h3>
                         <div class="space-y-1">
-                            <a href="#" class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <a href="#" class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white">
                                 <i class="fas fa-cog mr-3 w-5"></i>
                                 <span class="sidebar-text">Settings</span>
                             </a>
-                            <a href="#" class="admin-link flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <a href="#" class="admin-link flex items-center p-3 rounded-lg text-white/90 hover:text-white">
                                 <i class="fas fa-server mr-3 w-5"></i>
                                 <span class="sidebar-text">System Status</span>
                             </a>
@@ -173,18 +313,18 @@
                 </nav>
 
                 <!-- User Profile Section -->
-                <div class="p-4 border-t border-gray-700">
+                <div class="p-4 border-t border-white/20 glass">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-white"></i>
+                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                            <i class="fas fa-user text-white text-lg"></i>
                         </div>
                         <div class="flex-1">
                             <p class="text-sm font-medium text-white">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-gray-400">Administrator</p>
+                            <p class="text-xs text-white/80">Administrator</p>
                         </div>
                         <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
-                            <button type="submit" class="text-gray-400 hover:text-white transition-colors">
+                            <button type="submit" class="text-white/80 hover:text-white transition-all duration-300 hover:scale-110">
                                 <i class="fas fa-sign-out-alt"></i>
                             </button>
                         </form>
@@ -194,16 +334,16 @@
         </aside>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden main-content transition-all duration-300 lg:ml-20">
             <!-- Top Header -->
-            <header class="bg-white shadow-sm border-b border-gray-200">
+            <header class="bg-white/90 backdrop-blur-md shadow-lg border-b border-white/20 sticky top-0 z-40">
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-900">
+                            <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                                 @yield('page-title', 'Dashboard')
                             </h1>
-                            <p class="text-sm text-gray-500 mt-1">Welcome back, {{ Auth::user()->name }}</p>
+                            <p class="text-sm text-gray-600 mt-1">Welcome back, <span class="font-medium text-gray-800">{{ Auth::user()->name }}</span> 👋</p>
                         </div>
 
                         <!-- Right Actions -->
@@ -211,26 +351,31 @@
                             <!-- Search -->
                             <div class="hidden md:block">
                                 <div class="relative">
-                                    <input type="text" placeholder="Search..." class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                    <input type="text" placeholder="Search anything..." class="w-64 pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-50/50 backdrop-blur-sm transition-all duration-300">
                                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                                 </div>
                             </div>
 
                             <!-- Notifications -->
-                            <button class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                                <i class="fas fa-bell text-xl"></i>
-                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                            <button class="relative p-2.5 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300 group">
+                                <i class="fas fa-bell text-xl group-hover:scale-110 transition-transform"></i>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse-slow"></span>
                             </button>
 
                             <!-- Settings -->
-                            <button class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                                <i class="fas fa-cog text-xl"></i>
+                            <button class="p-2.5 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300 group">
+                                <i class="fas fa-cog text-xl group-hover:rotate-90 transition-transform duration-300"></i>
                             </button>
                             
                             <!-- Dark Mode Toggle -->
-                            <button onclick="toggleDarkMode()" class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                                <i class="fas fa-moon text-xl"></i>
-                            </button>
+                <!-- Mobile Menu Toggle -->
+                <button onclick="toggleSidebar()" class="lg:hidden p-2.5 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                
+                <button onclick="toggleDarkMode()" class="p-2.5 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300 group">
+                    <i class="fas fa-moon text-xl group-hover:scale-110 transition-transform"></i>
+                </button>
 
                             <!-- User Menu -->
                             <div class="relative">
@@ -272,21 +417,25 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+            <main class="flex-1 overflow-y-auto bg-gradient-to-br from-gray-50/50 to-white/50 backdrop-blur-sm p-6">
                 <!-- Flash Messages -->
                 @if(session()->has('success'))
-                    <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                    <div class="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-green-700 px-6 py-4 rounded-xl shadow-lg animate-slide-in">
                         <div class="flex items-center">
-                            <i class="fas fa-check-circle mr-2"></i>
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
                             <span class="font-medium">{{ session('success') }}</span>
                         </div>
                     </div>
                 @endif
 
                 @if(session()->has('error'))
-                    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    <div class="mb-6 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl shadow-lg animate-slide-in">
                         <div class="flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-exclamation text-white text-sm"></i>
+                            </div>
                             <span class="font-medium">{{ session('error') }}</span>
                         </div>
                     </div>
@@ -328,14 +477,46 @@
         // Mobile sidebar toggle
         function toggleSidebar() {
             const sidebar = document.querySelector('aside');
-            sidebar.classList.toggle('sidebar-collapsed');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (window.innerWidth < 1024) {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('inset-0');
+                sidebar.classList.toggle('z-50');
+            } else {
+                sidebar.classList.toggle('sidebar-collapsed');
+                mainContent.classList.toggle('ml-64');
+                mainContent.classList.toggle('ml-20');
+            }
         }
+        
+        // Mobile responsive handling
+        function handleResponsive() {
+            const sidebar = document.querySelector('aside');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (window.innerWidth < 1024) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('sidebar-collapsed');
+                mainContent.classList.remove('ml-64', 'ml-20');
+            } else {
+                sidebar.classList.remove('hidden', 'fixed', 'inset-0', 'z-50');
+                sidebar.classList.add('sidebar-collapsed');
+                mainContent.classList.add('ml-20');
+            }
+        }
+        
+        // Initialize responsive handling
+        document.addEventListener('DOMContentLoaded', handleResponsive);
+        window.addEventListener('resize', handleResponsive);
 
-        // Auto-hide flash messages
+        // Auto-hide flash messages with enhanced animation
         setTimeout(() => {
             const flashMessages = document.querySelectorAll('[class*="bg-green-50"], [class*="bg-red-50"], [class*="bg-blue-50"]');
             flashMessages.forEach(msg => {
-                msg.style.transition = 'opacity 0.5s';
+                msg.style.transition = 'all 0.5s ease-out';
+                msg.style.transform = 'translateX(100px)';
                 msg.style.opacity = '0';
                 setTimeout(() => msg.remove(), 500);
             });
