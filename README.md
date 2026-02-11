@@ -3,7 +3,7 @@
 ## 📸 Project Screenshots
 
 
-#homepage
+
 <p align="center"><a target="_blank"><img src="Screenshot 2026-02-11 204903.png" width="400" alt="Laravel Logo"></a></p>
 
 
